@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Checklist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0); /* Transparent for OBS */
+            color: white;
+            font-size: 24px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        .checked {
+            text-decoration: line-through;
+            color: #bbb;
+        }
+    </style>
+    <script>
+        function toggleCheck(item) {
+            item.classList.toggle("checked");
+        }
+    </script>
+</head>
+<body>
+    <h1>Stream Checklist</h1>
+    <ul>
+        <li onclick="toggleCheck(this)">Welcome Message</li>
+        <li onclick="toggleCheck(this)">Check Audio Levels</li>
+        <li onclick="toggleCheck(this)">Start Recording</li>
+        <li onclick="toggleCheck(this)">Activate Chat Overlay</li>
+        <li onclick="toggleCheck(this)">Post Stream Message</li>
+    </ul>
+</body>
+</html>
