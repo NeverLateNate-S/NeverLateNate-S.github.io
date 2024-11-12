@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream Checklist</title>
+    <title>Checklist</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,6 +27,19 @@
             margin-top: 20px;
             position: absolute;
             bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        #new-item {
+            font-size: 20px;
+            padding: 8px;
+            width: 250px;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
         }
     </style>
     <script>
@@ -63,13 +76,8 @@
     </script>
 </head>
 <body>
-    <h1>Stream Checklist</h1>
+    <h1>Checklist</h1>
     <ul id="checklist">
-        <li onclick="toggleCheck(this)">Welcome Message</li>
-        <li onclick="toggleCheck(this)">Check Audio Levels</li>
-        <li onclick="toggleCheck(this)">Start Recording</li>
-        <li onclick="toggleCheck(this)">Activate Chat Overlay</li>
-        <li onclick="toggleCheck(this)">Post Stream Message</li>
     </ul>
 
     <div id="input-section">
