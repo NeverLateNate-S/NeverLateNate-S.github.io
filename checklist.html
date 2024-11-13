@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,10 +13,12 @@
             font-size: 24px;
             margin: 20px;
         }
+
         ul {
             list-style-type: none;
             padding: 0;
         }
+
         li {
             display: flex;
             align-items: center;
@@ -24,10 +27,12 @@
             word-wrap: break-word;
             cursor: pointer;
         }
+
         .checked {
             text-decoration: line-through;
             color: #bbb;
         }
+
         #input-section {
             margin-top: 20px;
             position: absolute;
@@ -36,11 +41,13 @@
             gap: 10px;
             align-items: center;
         }
+
         #new-item {
             font-size: 20px;
             padding: 8px;
             width: 250px;
         }
+
         button {
             font-size: 20px;
             padding: 10px 15px;
@@ -62,7 +69,7 @@
                 // Create checkbox
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
-                checkbox.onclick = function() { toggleCheck(this); };
+                checkbox.onclick = function () { toggleCheck(this); };
 
                 // Create text node
                 const textNode = document.createTextNode(" " + itemText);
@@ -85,9 +92,9 @@
         }
 
         // Add enter key functionality
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const inputField = document.getElementById("new-item");
-            inputField.addEventListener("keypress", function(event) {
+            inputField.addEventListener("keypress", function (event) {
                 if (event.key === "Enter") {
                     addItem();
                     event.preventDefault();
@@ -96,43 +103,42 @@
         });
 
         // Drag-and-drop reordering
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const ul = document.getElementById("checklist");
 
+            // Initialize the dragged element variable
+            let draggedItem = null;
+
             ul.addEventListener("dragstart", (e) => {
-                e.target.classList.add("dragging");
+                draggedItem = e.target;  // Store the dragged item
+                setTimeout(() => {
+                    e.target.style.display = "none";
+                }, 0);
             });
 
             ul.addEventListener("dragend", (e) => {
-                e.target.classList.remove("dragging");
+                setTimeout(() => {
+                    draggedItem.style.display = "flex";
+                    draggedItem = null;
+                }, 0);
             });
 
             ul.addEventListener("dragover", (e) => {
                 e.preventDefault();
-                const dragging = document.querySelector(".dragging");
-                const afterElement = getDragAfterElement(ul, e.clientY);
-                if (afterElement == null) {
-                    ul.appendChild(dragging);
-                } else {
-                    ul.insertBefore(dragging, afterElement);
-                }
             });
 
-            function getDragAfterElement(container, y) {
-                const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
-                return draggableElements.reduce((closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    const offset = y - box.top - box.height / 2;
-                    if (offset < 0 && offset > closest.offset) {
-                        return { offset: offset, element: child };
-                    } else {
-                        return closest;
-                    }
-                }, { offset: Number.NEGATIVE_INFINITY }).element;
-            }
+            ul.addEventListener("dragenter", (e) => {
+                e.preventDefault();
+                const target = e.target.closest("li");
+                if (target && target !== draggedItem) {
+                    ul.insertBefore(draggedItem, target);
+                }
+            });
         });
+
     </script>
 </head>
+
 <body>
     <h1>To Do:</h1>
     <ul id="checklist">
@@ -164,4 +170,5 @@
         <button onclick="removeCheckedItems()">Remove Checked Items</button>
     </div>
 </body>
+
 </html>
