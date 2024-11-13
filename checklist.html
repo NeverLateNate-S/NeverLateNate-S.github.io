@@ -110,21 +110,24 @@
         // Drag-and-drop reordering
         document.addEventListener("DOMContentLoaded", function () {
             const ul = document.getElementById("checklist");
-
             let draggedItem = null;
 
             ul.addEventListener("dragstart", (e) => {
-                draggedItem = e.target;
-                e.target.classList.add("dragging"); // Add visual feedback
+                if (e.target.tagName === "LI") {
+                    draggedItem = e.target;
+                    e.target.classList.add("dragging"); // Add the dragging class for opacity
+                }
             });
 
             ul.addEventListener("dragend", (e) => {
-                e.target.classList.remove("dragging");
-                draggedItem = null;
+                if (draggedItem) {
+                    draggedItem.classList.remove("dragging"); // Remove the dragging class
+                    draggedItem = null;
+                }
             });
 
             ul.addEventListener("dragover", (e) => {
-                e.preventDefault();
+                e.preventDefault(); // Allow the dragover event to happen
                 const afterElement = getDragAfterElement(ul, e.clientY);
                 if (afterElement == null) {
                     ul.appendChild(draggedItem);
@@ -147,6 +150,7 @@
                 }, { offset: Number.NEGATIVE_INFINITY }).element;
             }
         });
+
 
 
     </script>
