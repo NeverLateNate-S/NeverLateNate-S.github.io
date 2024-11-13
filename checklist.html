@@ -28,6 +28,11 @@
             cursor: pointer;
         }
 
+        li.dragging {
+            opacity: 0.5;
+        }
+
+
         .checked {
             text-decoration: line-through;
             color: #bbb;
@@ -106,35 +111,43 @@
         document.addEventListener("DOMContentLoaded", function () {
             const ul = document.getElementById("checklist");
 
-            // Initialize the dragged element variable
             let draggedItem = null;
 
             ul.addEventListener("dragstart", (e) => {
-                draggedItem = e.target;  // Store the dragged item
-                setTimeout(() => {
-                    e.target.style.display = "none";
-                }, 0);
+                draggedItem = e.target;
+                e.target.classList.add("dragging"); // Add visual feedback
             });
 
             ul.addEventListener("dragend", (e) => {
-                setTimeout(() => {
-                    draggedItem.style.display = "flex";
-                    draggedItem = null;
-                }, 0);
+                e.target.classList.remove("dragging");
+                draggedItem = null;
             });
 
             ul.addEventListener("dragover", (e) => {
                 e.preventDefault();
-            });
-
-            ul.addEventListener("dragenter", (e) => {
-                e.preventDefault();
-                const target = e.target.closest("li");
-                if (target && target !== draggedItem) {
-                    ul.insertBefore(draggedItem, target);
+                const afterElement = getDragAfterElement(ul, e.clientY);
+                if (afterElement == null) {
+                    ul.appendChild(draggedItem);
+                } else {
+                    ul.insertBefore(draggedItem, afterElement);
                 }
             });
+
+            function getDragAfterElement(container, y) {
+                const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
+
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+            }
         });
+
 
     </script>
 </head>
