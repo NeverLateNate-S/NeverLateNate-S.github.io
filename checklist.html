@@ -54,11 +54,20 @@
             if (itemText) {
                 const ul = document.getElementById("checklist");
                 const li = document.createElement("li");
-                li.textContent = itemText;
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                
                 li.onclick = function() { toggleCheck(this); };
+                
+                const textNode = document.createTextNode(" " + itemText);
+
+                li.appendChild(checkbox);
+                li.appendChild(textNode);
                 li.draggable = true;
                 li.addEventListener("dragstart", (e) => e.target.classList.add("dragging"));
                 li.addEventListener("dragend", (e) => e.target.classList.remove("dragging"));
+
                 ul.appendChild(li);
                 document.getElementById("new-item").value = ""; // Clear input
             }
